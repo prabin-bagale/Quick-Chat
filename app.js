@@ -3,6 +3,7 @@ const app = express();
 const authRouter= require('./controllers/authController')
 const userRouter= require('./controllers/userController')
 
+
 //middleware
 app.use(express.json());
 //routes
