@@ -28,8 +28,7 @@ router.get('/get-user-info', authmiddleware, async (req, res) => {
 router.get('/get-alluser-info', authmiddleware, async (req, res) => {
     try {
         // Use req.userId which was set in the middleware
-        const userid = req.body.userId;
-        const allUsers = await User.find({ _id: {$ne: userid} });
+        const allUsers = await User.find({ _id: {$ne: req.userId} });
 
         if (!allUsers) {
             return res.send({ message: "User not found", success: false });

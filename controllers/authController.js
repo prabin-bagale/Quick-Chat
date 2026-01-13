@@ -9,7 +9,7 @@ router.post('/signup', async(req, res) => {
         const user = await User.findOne({email: req.body.email})
     //if user exists, send error response
     if(user){
-         return res.send({
+         return res.status(400).send({
           message: "User already exists",
           success: false
         })
@@ -21,13 +21,13 @@ router.post('/signup', async(req, res) => {
     //create a new user and save to database
         const newUser = new User(req.body);
         await newUser.save();
-        res.send({
+        res.status(201).send({
           message: "User created successfully",
           success: true
         });
 
   } catch (error) {
-    res.send({
+    res.status(400).send({
         message: error.message,
         success: false
     })
@@ -38,7 +38,7 @@ router.post('/login', async(req, res) => {
         //check if user exists
         const user = await User.findOne({email: req.body.email})
         if(!user){
-            return res.send({
+            return res.status(400).send({
                 message: "User does not exist",
                 success: false
             })
@@ -46,7 +46,7 @@ router.post('/login', async(req, res) => {
         //check if password matches
         const isMatch = await bcrypt.compare(req.body.password, user.password);
         if(!isMatch){
-            return res.send({
+            return res.status(400).send({
                 message: "Password does not match",
                 success: false
             })
@@ -59,7 +59,7 @@ router.post('/login', async(req, res) => {
             token: token
         })
     } catch (error) {
-        res.send({
+        res.status(400).send({
             message: error.message,
             success: false
         })
